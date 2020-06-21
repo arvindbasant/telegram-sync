@@ -16,14 +16,26 @@ def insert_rfid_response(telegram):
     cursor = conn.cursor()
 
     cursor.execute("""
-    INSERT INTO telegramdb.dbo.RFID_RESPONSE(sender, receiver, communication_point, handshake, sequence_number, error, 
-    telegram_type, message_type, warehouse_number, handling_unit_identification, material_number, batch, stock_type, 
-    telegram_order, telegram_status, source_storage_bin, text1, text2, text3, text4, text5, received_on)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )""",
-                   telegram.sender, telegram.receiver, telegram.communication_point, telegram.handshake,
-                   telegram.sequence_number, telegram.error, telegram.telegram_type, telegram.message_type,
-                   telegram.warehouse_number, telegram.handling_unit_identification, telegram.material_number,
-                   telegram.batch, telegram.stock_type, telegram.order, telegram.status,
-                   telegram.source_storage_bin, telegram.text1, telegram.text2, telegram.text3, telegram.text4,
-                   telegram.text5, datetime.datetime.now())
+    INSERT INTO telegramdb.dbo.RFID_RESPONSE(SENDER, RECEIVER, COMMUNICATION_POINT, HANDSHAKE, SEQUENCE_NUMBER, ERROR, 
+    TELEGRAM_TYPE, MESSAGE_TYPE, WAREHOUSE_NUMBER, HANDLING_UNIT_IDENTIFICATION, MATERIAL_NUMBER, BATCH, STOCK_TYPE, 
+    TELEGRAM_ORDER, TELEGRAM_STATUS, SOURCE_STORAGE_BIN, ERROR_MESSAGE, RECEIVED_ON)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )""",
+                   telegram.sender.rstrip(),
+                   telegram.receiver.rstrip(),
+                   telegram.communication_point.rstrip(),
+                   telegram.handshake.rstrip(),
+                   telegram.sequence_number.rstrip(),
+                   telegram.error.rstrip(),
+                   telegram.telegram_type.rstrip(),
+                   telegram.message_type.rstrip(),
+                   telegram.warehouse_number.rstrip(),
+                   telegram.handling_unit_identification.rstrip(),
+                   telegram.material_number.rstrip(),
+                   telegram.batch.rstrip(),
+                   telegram.stock_type.rstrip(),
+                   telegram.order.rstrip(),
+                   telegram.status.rstrip(),
+                   telegram.source_storage_bin.rstrip(),
+                   (telegram.text1 + telegram.text2 + telegram.text3 + telegram.text4 + telegram.text5).rstrip(),
+                   datetime.datetime.now())
     conn.commit()

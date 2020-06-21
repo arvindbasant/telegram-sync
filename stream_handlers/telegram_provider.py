@@ -3,6 +3,7 @@ from tornado.ioloop import IOLoop
 from tornado.iostream import StreamClosedError
 from tornado.tcpserver import TCPServer
 from tornado.options import options, define
+from modals.telegram import Telegram
 
 import pika
 
@@ -21,7 +22,9 @@ class TelegramProvider(TCPServer):
             try:
                 data = await stream.read_until(b"\n")
                 channel.basic_publish(exchange='', routing_key='telegram', body=data)
-                logger.info("Received: %s", data.decode().strip())
+                logger.info("Received new Telegram: %s", data.decode().strip())
+                ack_telegram_str = Telegram.to_ack(data.decode().strip()).to_str() + "\n"
+                await stream.write(ack_telegram_str.encode())
             except StreamClosedError:
                 logger.warning("Lost client at host %s", address[0])
                 connection.close()

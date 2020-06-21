@@ -1,4 +1,4 @@
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
@@ -25,32 +25,66 @@ class Telegram:
     text4: str
     text5: str
 
-    def to_dict(self):
-        return asdict(self)
-
     @classmethod
     def from_source(cls, source):
         telegram = Telegram(
-            sender=source[:8].replace('b', ''),
-            receiver=source[8:16].replace('b', ''),
-            communication_point=source[16:34].replace('b', ''),
-            handshake=source[34:36].replace('b', ''),
-            sequence_number=source[36:56].replace('b', ''),
-            error=source[56:60].replace('b', ''),
-            telegram_type=source[60:64].replace('b', ''),
-            message_type=source[64:69].replace('b', ''),
-            warehouse_number=source[69:73].replace('b', ''),
-            handling_unit_identification=source[73:93].replace('b', ''),
-            material_number=source[93:111].replace('b', ''),
-            batch=source[111:121].replace('b', ''),
-            stock_type=source[121:123].replace('b', ''),
-            order=source[123:135].replace('b', ''),
-            status=source[135:138].replace('b', ''),
-            source_storage_bin=source[138:156].replace('b', ''),
-            text1=source[156:164].replace('b', ''),
-            text2=source[164:170].replace('b', ''),
-            text3=source[170:182].replace('b', ''),
-            text4=source[182:190].replace('b', ''),
-            text5=source[190:230].replace('b', ''),
+            sender=source[:8],
+            receiver=source[8:16],
+            communication_point=source[16:34],
+            handshake=source[34:36],
+            sequence_number=source[36:56],
+            error=source[56:60],
+            telegram_type=source[60:64],
+            message_type=source[64:69],
+            warehouse_number=source[69:73],
+            handling_unit_identification=source[73:93],
+            material_number=source[93:111],
+            batch=source[111:121],
+            stock_type=source[121:123],
+            order=source[123:135],
+            status=source[135:138],
+            source_storage_bin=source[138:156],
+            text1=source[156:164],
+            text2=source[164:170],
+            text3=source[170:182],
+            text4=source[182:190],
+            text5=source[190:230],
         )
         return telegram
+
+    @classmethod
+    def to_ack(cls, source):
+        sender = source[:8]
+        receiver = source[8:16]
+        telegram = Telegram(
+            sender=receiver,
+            receiver=sender,
+            communication_point=source[16:34],
+            handshake="C ",
+            sequence_number=source[36:56],
+            error=source[56:60],
+            telegram_type=source[60:64],
+            message_type=source[64:69],
+            warehouse_number=source[69:73],
+            handling_unit_identification=source[73:93],
+            material_number=source[93:111],
+            batch=source[111:121],
+            stock_type=source[121:123],
+            order=source[123:135],
+            status=source[135:138],
+            source_storage_bin=source[138:156],
+            text1=source[156:164],
+            text2=source[164:170],
+            text3=source[170:182],
+            text4=source[182:190],
+            text5=source[190:230],
+        )
+        return telegram
+
+    def to_str(self):
+        return self.sender + self.receiver + self.communication_point + self.handshake \
+               + self.sequence_number + self.error + self.telegram_type + self.message_type \
+               + self.warehouse_number + self.handling_unit_identification + self.material_number \
+               + self.batch + self.stock_type + self.order + self.status \
+               + self.source_storage_bin + self.text1 + self.text2 + self.text3 \
+               + self.text4 + self.text5
