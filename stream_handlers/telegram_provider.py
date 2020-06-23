@@ -15,7 +15,7 @@ class TelegramProvider(TCPServer):
 
     async def handle_stream(self, stream, address):
         connection = pika.BlockingConnection(
-            pika.ConnectionParameters('localhost', 5672, '/', pika.PlainCredentials('user', 'password')))
+            pika.ConnectionParameters('rabbitmq', 5672, '/', pika.PlainCredentials('admin', 'Welcome1#')))
         channel = connection.channel()
         channel.queue_declare(queue='telegram')
         while True:

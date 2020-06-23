@@ -5,7 +5,7 @@ from services.rfid_response_service import RFIDResponseService
 logger = logging.getLogger(__name__)
 
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters('localhost', 5672, '/', pika.PlainCredentials('user', 'password'))
+    pika.ConnectionParameters('rabbitmq', 5672, '/', pika.PlainCredentials('admin', 'Welcome1#'))
 )
 channel = connection.channel()  # start a channel
 channel.queue_declare(queue='telegram')  # Declare a queue

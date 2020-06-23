@@ -1,0 +1,29 @@
+version: '3.7'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  rabbitmq:
+    image: bitnami/rabbitmq:latest
+    environment:
+      - RABBITMQ_USERNAME=admin
+      - RABBITMQ_PASSWORD=Welcome1#
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - .:/bitnami
+    networks:
+      - app-tier
+  telegram:
+    build: .
+    container_name: telegram
+    depends_on:
+      - rabbitmq
+    restart: always
+    volumes:
+      - .:/telegram-sync:rw
+    networks:
+      - app-tier
