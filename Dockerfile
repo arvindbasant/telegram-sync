@@ -1,15 +1,8 @@
 FROM python:3.8-alpine
-RUN apk add --no-cache bash
 
-EXPOSE 9888
+EXPOSE 52004
 
-RUN apk add build-base unixodbc-dev unixodbc freetds-dev && pip install pyodbc
-
-#ADD odbcinst.ini /odbcinst.ini
-#RUN apt-get update
-#RUN apt-get install -y tdsodbc unixodbc-dev
-#RUN apt install unixodbc-bin -y
-#RUN apt-get clean -y
+RUN apk add bash build-base unixodbc-dev unixodbc freetds-dev
 
 WORKDIR /telegram-sync
 

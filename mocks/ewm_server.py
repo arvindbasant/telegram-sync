@@ -6,7 +6,7 @@ import time
 import logging
 
 define("host", default="0.0.0.0", help="TCP server host")
-define("port", default=9888, help="TCP port to connect to")
+define("port", default=52004, help="TCP port to connect to")
 logger = logging.getLogger(__name__)
 
 
