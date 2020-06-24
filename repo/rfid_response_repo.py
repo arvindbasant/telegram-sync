@@ -2,11 +2,11 @@ import pyodbc
 import datetime
 
 
-def pyodbc_localhost():
-    driver = '/usr/lib/libtdsodbc.so'  # NOT THE MOST ELEGANT WAY, BUT WE'RE TELLING PYODBC WHERE TO FIND THE FREETDS DRIVER
+def connect():
+    driver = '/usr/lib/libtdsodbc.so'
     try:
         conn = pyodbc.connect(
-            'DRIVER=' + driver + ';SERVER=172.17.0.2;PORT=1433;DATABASE=telegramdb;UID=sa;PWD=Pass*123')
+            'DRIVER=' + driver + ';SERVER=172.22.0.2;PORT=1433;DATABASE=telegramdb;UID=sa;PWD=Pass*123')
     except Exception as e:
         print(f"Couldn't connect to db on localhost because {e}")
     else:
@@ -15,22 +15,7 @@ def pyodbc_localhost():
 
 
 def insert_rfid_response(telegram):
-    # driver = '/usr/lib/libtdsodbc.so'
-    # conn_str = (
-    #     r'DRIVER={' + driver + '};'
-    #     r'SERVER=172.17.0.2,1433;'
-    #     r'DATABASE=telegramdb;'
-    #     r'UID=sa;'
-    #     r'PWD=Pass*123;'
-    # )
-    #
-    # conn = pyodbc.connect(conn_str)
-    # cursor = conn.cursor()
-
-    print("trying to insert")
-
-    conn, cursor = pyodbc_localhost()
-
+    conn, cursor = connect()
     cursor.execute("""
     INSERT INTO telegramdb.dbo.RFID_RESPONSE(SENDER, RECEIVER, COMMUNICATION_POINT, HANDSHAKE, SEQUENCE_NUMBER, ERROR, 
     TELEGRAM_TYPE, MESSAGE_TYPE, WAREHOUSE_NUMBER, HANDLING_UNIT_IDENTIFICATION, MATERIAL_NUMBER, BATCH, STOCK_TYPE, 

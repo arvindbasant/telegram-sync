@@ -22,8 +22,4 @@ COPY . .
 COPY run.sh /
 RUN chmod +x /run.sh
 
-CMD ["./wait-for-it.sh", "rabbitmq:5672", "--", "/bin/sh", "./run.sh"]
-
-#COPY ./docker-entrypoint.sh /docker-entrypoint.sh
-#RUN chmod +x /docker-entrypoint.sh
-#ENTRYPOINT ["/bin/sh", "./docker-entrypoint.sh"]
+CMD /bin/sh -c './wait-for-it.sh -t 60 rabbitmq:5672 -- /bin/sh ./run.sh'

@@ -4,11 +4,14 @@ from tornado.iostream import StreamClosedError
 from tornado.tcpserver import TCPServer
 from tornado.options import options, define
 from modals.telegram import Telegram
+# from repo.rfid_response_repo import insert_rfid_response
 
 import pika
 
 define("port", default=9888, help="TCP port to listen on")
 logger = logging.getLogger(__name__)
+
+logging.getLogger("pika").setLevel(logging.WARNING)
 
 
 class TelegramProvider(TCPServer):
@@ -24,6 +27,7 @@ class TelegramProvider(TCPServer):
                 channel.basic_publish(exchange='', routing_key='telegram', body=data)
                 logger.info("Received new Telegram: %s", data.decode().strip())
                 ack_telegram_str = Telegram.to_ack(data.decode().strip()).to_str() + "\n"
+                # insert_rfid_response(Telegram.from_source(data.decode().strip()))
                 await stream.write(ack_telegram_str.encode())
             except StreamClosedError:
                 logger.warning("Lost client at host %s", address[0])
