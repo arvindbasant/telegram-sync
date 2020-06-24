@@ -1,3 +1,2 @@
 tornado
 pika
-pyodbc

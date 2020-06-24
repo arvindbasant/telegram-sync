@@ -20,9 +20,12 @@ services:
   telegram:
     build: .
     container_name: telegram
+    ports:
+      - 9888:9888
     depends_on:
       - rabbitmq
-    restart: always
+    restart: on-failure
+    #    command: /bin/sh -c ./docker-entrypoint.sh
     volumes:
       - .:/telegram-sync:rw
     networks:
