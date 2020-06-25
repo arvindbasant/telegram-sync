@@ -1,5 +1,5 @@
 from modals.telegram import Telegram
-from repo.rfid_response_repo import insert_rfid_response
+from repo.rfid_response_repo import insert_rfid_response, delete_90_days_older_response
 
 
 class RFIDResponseService:
@@ -11,3 +11,7 @@ class RFIDResponseService:
         telegram_payload = self.payload.decode().strip()
         telegram_obj = Telegram.from_source(telegram_payload)
         insert_rfid_response(telegram_obj)
+
+    @staticmethod
+    def delete_rfid_response():
+        delete_90_days_older_response()

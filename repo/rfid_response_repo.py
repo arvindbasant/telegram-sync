@@ -1,24 +1,5 @@
-import pyodbc
 import datetime
-import os
-
-
-def connect():
-    mssql_server = os.environ['MSSQL_SERVER']
-    mssql_port = os.environ['MSSQL_PORT']
-    mssql_database = os.environ['MSSQL_DATABASE']
-    mssql_username = os.environ['MSSQL_USERNAME']
-    mssql_password = os.environ['MSSQL_PASSWORD']
-
-    driver = '/usr/lib/libtdsodbc.so'
-    try:
-        conn = pyodbc.connect(
-            'DRIVER=' + driver + ';SERVER=' + mssql_server + ';PORT=' + mssql_port + ';DATABASE=' + mssql_database + ';UID=' + mssql_username + ';PWD=' + mssql_password + '')
-    except Exception as e:
-        print(f"Database connection error: {e}")
-    else:
-        cursor = conn.cursor()
-        return conn, cursor
+from repo.database import connect
 
 
 def insert_rfid_response(telegram):
@@ -46,4 +27,10 @@ def insert_rfid_response(telegram):
                    telegram.source_storage_bin.rstrip(),
                    (telegram.text1 + telegram.text2 + telegram.text3 + telegram.text4 + telegram.text5).rstrip(),
                    datetime.datetime.now())
+    conn.commit()
+
+
+def delete_90_days_older_response():
+    conn, cursor = connect()
+    cursor.execute("EXEC sp_delete_rfid_response")
     conn.commit()

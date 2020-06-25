@@ -26,13 +26,14 @@ services:
       - RABBITMQ_USERNAME=admin
       - RABBITMQ_PASSWORD=Welcome1#
       - RABBITMQ_QUEUE_NAME=telegram
-      - MSSQL_SERVER=172.22.0.2
+      - MSSQL_SERVER=172.22.0.3
       - MSSQL_PORT=1433
       - MSSQL_DATABASE=telegramdb
       - MSSQL_USERNAME=sa
       - MSSQL_PASSWORD=Pass*123
       - SERVER_HOST=0.0.0.0
       - SERVER_PORT=52004
+      - PRUNE_JOB_TIME=7:00
     ports:
       - 52004:52004
     depends_on:
