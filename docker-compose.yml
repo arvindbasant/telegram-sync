@@ -33,7 +33,7 @@ services:
       - MSSQL_PASSWORD=Pass*123
       - SERVER_HOST=0.0.0.0
       - SERVER_PORT=52004
-      - PRUNE_JOB_TIME=7:00
+      - PRUNE_JOB_TIME=07:00
     ports:
       - 52004:52004
     depends_on:
