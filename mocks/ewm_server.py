@@ -5,7 +5,7 @@ from tornado.options import options, define
 import time
 import logging
 
-define("host", default="0.0.0.0", help="TCP server host")
+define("host", default="127.0.0.1", help="TCP server host")
 define("port", default=52004, help="TCP port to connect to")
 logger = logging.getLogger(__name__)
 

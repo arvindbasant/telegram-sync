@@ -31,9 +31,8 @@ services:
       - MSSQL_DATABASE=telegramdb
       - MSSQL_USERNAME=sa
       - MSSQL_PASSWORD=Pass*123
-      - SERVER_HOST=0.0.0.0
       - SERVER_PORT=52004
-      - PRUNE_JOB_TIME=07:00
+      - PRUNE_JOB_TIME=07:00 # 24 hr format of XX:XX i.e 05:00, 11:00, 18:30
     ports:
       - 52004:52004
     depends_on:
@@ -41,5 +40,6 @@ services:
     restart: on-failure
     volumes:
       - .:/telegram-sync:rw
+      - ../logs:/logs
     networks:
       - ts_net

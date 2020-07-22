@@ -1,5 +1,8 @@
 import pyodbc
 import os
+from utils import logger
+
+logger = logger.get_logger(__name__)
 
 
 def connect():
@@ -14,7 +17,7 @@ def connect():
         conn = pyodbc.connect(
             'DRIVER=' + driver + ';SERVER=' + mssql_server + ';PORT=' + mssql_port + ';DATABASE=' + mssql_database + ';UID=' + mssql_username + ';PWD=' + mssql_password + '')
     except Exception as e:
-        print(f"Database connection error: {e}")
+        logger.error("Database Connection error %s", e)
     else:
         cursor = conn.cursor()
         return conn, cursor

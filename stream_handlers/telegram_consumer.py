@@ -2,8 +2,10 @@ import logging
 import pika
 import os
 from services.rfid_response_service import RFIDResponseService
+from utils import logger
 
-logger = logging.getLogger(__name__)
+logger = logger.get_logger(__name__)
+
 rabbitmq_username = os.environ['RABBITMQ_USERNAME']
 rabbitmq_password = os.environ['RABBITMQ_PASSWORD']
 rabbitmq_queue_name = os.environ['RABBITMQ_QUEUE_NAME']
@@ -32,4 +34,6 @@ try:
     channel.start_consuming()
 except KeyboardInterrupt:
     channel.stop_consuming()
+except Exception as e:
+    logger.error("error %s", e)
 connection.close()
